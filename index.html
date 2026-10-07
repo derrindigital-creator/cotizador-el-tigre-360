@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cotizador El Tigre 360</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <main>
+
+        <div class="marca-tigre">
+            <img src="assets/logo-tigre-360.png" alt="El Tigre 360 - Te Conecta" class="logo-tigre">
+        </div>
+
+        <h2>Cotizador de Giros</h2>
+
+
+        <!-- =====================================
+             CONVERSOR DE MONEDAS
+             ===================================== -->
+
+        <div class="conversor-monedas">
+
+
+            <!-- PESOS COLOMBIANOS -->
+
+            <div class="modulo-moneda modulo-cop">
+
+                <div class="encabezado-moneda">
+
+                    <span>Pesos colombianos</span>
+
+                    <small>
+                        ¿Cuántos pesos deseas enviar?
+                    </small>
+
+                </div>
+
+
+                <div class="campo-moneda">
+
+                    <span class="simbolo-moneda">
+                        $
+                    </span>
+
+                    <input type="text" id="montoCop" placeholder="0" inputmode="numeric" autocomplete="off">
+
+                    <span class="codigo-moneda">
+                        COP
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOLÍVARES -->
+
+            <div class="modulo-moneda modulo-ves">
+
+                <div class="encabezado-moneda">
+
+                    <span>Bolívares</span>
+
+                    <small>
+                        Monto aproximado a recibir
+                    </small>
+
+                </div>
+
+
+                <div class="campo-moneda">
+
+                    <input type="text" id="montoVes" placeholder="0,00" inputmode="decimal" autocomplete="off">
+
+                    <span class="codigo-moneda">
+                        Bs
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- DÓLARES BCV -->
+
+            <div class="modulo-moneda modulo-bcv">
+
+                <div class="encabezado-moneda">
+
+                    <span>Dólares al BCV</span>
+
+                    <small>
+                        Equivalente según tasa BCV
+                    </small>
+
+                </div>
+
+
+                <div class="campo-moneda">
+
+                    <span class="simbolo-moneda">
+                        US$
+                    </span>
+
+                    <input type="text" id="montoBcv" placeholder="0,00" inputmode="decimal" autocomplete="off" <span
+                        class="codigo-moneda">
+                    BCV
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TASA COMERCIAL INTERNA -->
+
+        <input type="hidden" id="tasaVenta" value="3.70">
+
+
+        <!-- =====================================
+             COMPATIBILIDAD TEMPORAL CON APP.JS
+             ===================================== -->
+
+        <div class="resultados-ocultos">
+
+            <span id="resultado">
+                0,00 Bs
+            </span>
+
+            <span id="resultadoBcv">
+                US$ 0,00
+            </span>
+
+        </div>
+
+
+        <!-- =====================================
+             ACCIONES
+             ===================================== -->
+
+        <section>
+
+            <div class="vigencia-cotizacion" id="vigenciaCotizacion">
+
+                <span>⏱</span>
+
+                <div>
+
+                    <small>
+                        Cotización válida por
+                    </small>
+
+                    <strong id="tiempoCotizacion">
+                        1 hora
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <button type="button" id="btnWhatsApp" disabled>
+                CONTINUAR POR WHATSAPP
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

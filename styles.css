@@ -1,0 +1,535 @@
+/* ==========================================
+   EL TIGRE 360
+   COTIZADOR COP · VES · BCV
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(circle at top,
+            #ffffff 0%,
+            #f4f7fb 55%,
+            #e9eef5 100%);
+
+    color: #172033;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 24px;
+}
+
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ========================================== */
+
+main {
+    width: 100%;
+    max-width: 460px;
+
+    padding: 34px 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8edf4;
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 60px rgba(20, 39, 74, 0.12);
+
+    text-align: center;
+}
+
+
+/* ==========================================
+   MARCA
+   ========================================== */
+
+main>h1 {
+    margin-bottom: 4px;
+
+    color: #123f86;
+
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+main>p:first-of-type {
+    margin-bottom: 24px;
+
+    color: #65738a;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+main>h2 {
+    margin-bottom: 22px;
+
+    color: #1b2638;
+
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+/* ==========================================
+   CONVERSOR
+   ========================================== */
+
+.conversor-monedas {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+
+/* ==========================================
+   MÓDULO DE MONEDA
+   ========================================== */
+
+.modulo-moneda {
+    position: relative;
+
+    width: 100%;
+
+    padding: 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe6ef;
+    border-radius: 15px;
+
+    text-align: left;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* COP — AMARILLO */
+
+.modulo-cop {
+    border-left: 6px solid #f4c430;
+}
+
+
+/* VES — AZUL */
+
+.modulo-ves {
+    border-left: 6px solid #1d5cb8;
+}
+
+
+/* BCV — ROJO */
+
+.modulo-bcv {
+    border-left: 6px solid #c83b3b;
+}
+
+
+/* ==========================================
+   ENCABEZADO DE CADA MONEDA
+   ========================================== */
+
+.encabezado-moneda {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    margin-bottom: 9px;
+}
+
+.encabezado-moneda span {
+    color: #172033;
+
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.encabezado-moneda small {
+    color: #7a8798;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   CAMPO MONETARIO
+   ========================================== */
+
+.campo-moneda {
+    width: 100%;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+
+    background: #f8fafc;
+
+    border: 1px solid #dce3ed;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* ==========================================
+   LOS TRES INPUTS
+   ========================================== */
+
+#montoCop,
+#montoVes,
+#montoBcv {
+    flex: 1;
+
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0 10px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #172033;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+#montoCop::placeholder,
+#montoVes::placeholder,
+#montoBcv::placeholder {
+    color: #a3adba;
+
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   SÍMBOLOS Y CÓDIGOS
+   ========================================== */
+
+.simbolo-moneda {
+    flex-shrink: 0;
+
+    padding-left: 14px;
+
+    color: #65738a;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.codigo-moneda {
+    flex-shrink: 0;
+
+    padding-right: 14px;
+
+    color: #65738a;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+/* ==========================================
+   MÓDULO ACTIVO
+   ========================================== */
+
+.modulo-moneda:focus-within {
+    transform: translateY(-1px);
+}
+
+.modulo-moneda:focus-within .campo-moneda {
+    background: #ffffff;
+}
+
+
+/* COP activo */
+
+.modulo-cop:focus-within {
+    border-color: #f4c430;
+
+    box-shadow:
+        0 6px 18px rgba(244, 196, 48, 0.16);
+}
+
+.modulo-cop:focus-within .campo-moneda {
+    border-color: #f4c430;
+}
+
+
+/* VES activo */
+
+.modulo-ves:focus-within {
+    border-color: #1d5cb8;
+
+    box-shadow:
+        0 6px 18px rgba(29, 92, 184, 0.14);
+}
+
+.modulo-ves:focus-within .campo-moneda {
+    border-color: #1d5cb8;
+}
+
+
+/* BCV activo */
+
+.modulo-bcv:focus-within {
+    border-color: #c83b3b;
+
+    box-shadow:
+        0 6px 18px rgba(200, 59, 59, 0.14);
+}
+
+.modulo-bcv:focus-within .campo-moneda {
+    border-color: #c83b3b;
+}
+
+
+/* ==========================================
+   RESULTADOS INTERNOS ANTIGUOS
+   ========================================== */
+
+.resultados-ocultos {
+    display: none !important;
+}
+
+
+/* ==========================================
+   ZONA INFERIOR
+   ========================================== */
+
+section {
+    margin-top: 18px;
+
+    padding: 18px 14px;
+
+    background: #f5f8fc;
+
+    border: 1px solid #e1e7f0;
+    border-radius: 16px;
+}
+
+
+/* ==========================================
+   VIGENCIA
+   ========================================== */
+
+.vigencia-cotizacion {
+    padding: 11px 14px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe6ef;
+    border-radius: 11px;
+
+    color: #65738a;
+}
+
+.vigencia-cotizacion>span {
+    font-size: 18px;
+}
+
+.vigencia-cotizacion div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.vigencia-cotizacion small {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.vigencia-cotizacion strong {
+    color: #123f86;
+
+    font-size: 13px;
+    font-weight: 900;
+}
+
+
+/* ==========================================
+   WHATSAPP
+   ========================================== */
+
+#btnWhatsApp {
+    width: 100%;
+    min-height: 54px;
+
+    margin-top: 14px;
+    padding: 14px 18px;
+
+    border: none;
+    border-radius: 13px;
+
+    background: #172033;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+#btnWhatsApp:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(23, 32, 51, 0.16);
+}
+
+#btnWhatsApp:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+#btnWhatsApp:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   CELULARES
+   ========================================== */
+
+@media (max-width: 520px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 14px;
+
+        background: #f4f7fb;
+    }
+
+    main {
+        margin-top: 10px;
+
+        padding: 26px 18px;
+
+        border-radius: 20px;
+    }
+
+    main>h1 {
+        font-size: 27px;
+    }
+
+    main>p:first-of-type {
+        margin-bottom: 20px;
+    }
+
+    main>h2 {
+        margin-bottom: 20px;
+
+        font-size: 18px;
+    }
+
+    .conversor-monedas {
+        gap: 12px;
+    }
+
+    .modulo-moneda {
+        padding: 12px;
+    }
+
+    .campo-moneda {
+        height: 56px;
+    }
+
+    #montoCop,
+    #montoVes,
+    #montoBcv {
+        font-size: 20px;
+    }
+
+    section {
+        margin-top: 16px;
+
+        padding: 14px;
+    }
+}
+
+/* ==========================================
+   LOGO EL TIGRE 360
+   ========================================== */
+
+.marca-tigre {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.logo-tigre {
+    display: block;
+
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+
+    object-fit: contain;
+}
