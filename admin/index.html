@@ -95,6 +95,20 @@
 
         </form>
 
+        <section id="panelTasas" hidden>
+            <h2>🐯 Administrar tasas</h2>
+
+            <label for="nuevaTasaVenta">Tasa comercial COP/VES</label>
+            <input id="nuevaTasaVenta" type="number" step="any" min="0.000001">
+
+            <label for="nuevaTasaBCV">Dólar oficial BCV</label>
+            <input id="nuevaTasaBCV" type="number" step="any" min="0.000001">
+
+            <button id="guardarTasas" type="button" disabled>
+                Guardar nuevas tasas (próximamente)
+            </button>
+        </section>
+
     </main>
 
     <script src="config.js"></script>
@@ -144,6 +158,18 @@
                     alert("No se pudieron consultar las tasas.");
                 } else {
                     console.log("Tasas consultadas:", tasas);
+
+                    document.getElementById("nuevaTasaVenta").value =
+                        tasas.tasa_venta;
+
+                    document.getElementById("nuevaTasaBCV").value =
+                        tasas.tasa_bcv;
+
+                    document.getElementById("panelTasas").hidden = false;
+
+
+
+
                     alert(
                         "Tasas consultadas correctamente.\n" +
                         "Venta: " + tasas.tasa_venta + "\n" +
