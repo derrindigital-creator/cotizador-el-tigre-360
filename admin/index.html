@@ -105,7 +105,7 @@
             <input id="nuevaTasaBCV" type="number" step="any" min="0.000001">
 
             <button id="guardarTasas" type="button" disabled>
-                Guardar nuevas tasas (próximamente)
+                Guardar nuevas tasas
             </button>
         </section>
 
@@ -167,7 +167,65 @@
 
                     document.getElementById("panelTasas").hidden = false;
 
+                    const botonGuardar = document.getElementById("guardarTasas");
 
+                    botonGuardar.disabled = false;
+
+                    botonGuardar.onclick = async () => {
+                        const venta = Number(
+                            document.getElementById("nuevaTasaVenta").value
+                        );
+
+                        const bcv = Number(
+                            document.getElementById("nuevaTasaBCV").value
+                        );
+
+                        if (
+                            !Number.isFinite(venta) ||
+                            !Number.isFinite(bcv) ||
+                            venta <= 0 ||
+                            bcv <= 0
+                        ) {
+                            alert("Las tasas deben ser números mayores que cero.");
+                            return;
+                        }
+
+                        if (!confirm(
+                            "¿Confirmas guardar estas tasas?\n" +
+                            "Tasa comercial: " + venta + "\n" +
+                            "Dólar BCV: " + bcv
+                        )) {
+                            return;
+                        }
+
+                        botonGuardar.disabled = true;
+
+                        try {
+                            const { data, error } = await clienteSupabase
+                                .from("tasas_actuales")
+                                .update({
+                                    tasa_venta: venta,
+                                    tasa_bcv: bcv
+                                })
+                                .eq("id", 1)
+                                .select("id, tasa_venta, tasa_bcv")
+                                .single();
+
+                            if (error) throw error;
+
+                            alert(
+                                "¡Tasas guardadas correctamente!\n" +
+                                "Venta: " + data.tasa_venta + "\n" +
+                                "BCV: " + data.tasa_bcv
+                            );
+
+                        } catch (error) {
+                            console.error("Error al guardar tasas:", error);
+                            alert("No se pudieron guardar las tasas.");
+                        } finally {
+                            botonGuardar.disabled = false;
+                        }
+                    };
 
 
                     alert(
