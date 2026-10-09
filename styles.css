@@ -189,7 +189,7 @@ main>h2 {
 
     margin: 0;
 
-    background: #f8fafc;
+    background: #f1f5f9;
 
     border: 1px solid #dce3ed;
     border-radius: 12px;
@@ -284,7 +284,7 @@ main>h2 {
 }
 
 .modulo-moneda:focus-within .campo-moneda {
-    background: #ffffff;
+    background: #f8fafc;
 }
 
 
@@ -415,9 +415,9 @@ section {
     border: none;
     border-radius: 13px;
 
-    background: #172033;
+    background: #25D366;
 
-    color: #ffffff;
+    color: #102719;
 
     font-size: 14px;
     font-weight: 900;
@@ -532,4 +532,191 @@ section {
     height: auto;
 
     object-fit: contain;
+}
+
+/* ==========================================
+   NIF 16.1 — OPTIMIZACIÓN MÓVIL
+   EL TIGRE 360
+   ========================================== */
+
+@media (max-width: 520px) {
+
+    body {
+        min-height: 100vh;
+        min-height: 100dvh;
+
+        padding: 10px;
+
+        align-items: center;
+    }
+
+    main {
+        width: 100%;
+        max-width: 420px;
+
+        margin: 0;
+        padding: 18px 16px;
+
+        border-radius: 18px;
+    }
+
+    /* IDENTIDAD CORPORATIVA */
+
+    .marca-tigre {
+        margin-bottom: 8px;
+    }
+
+    .logo-tigre {
+        width: 100%;
+        max-width: 210px;
+        height: auto;
+    }
+
+    main>h2 {
+        margin-bottom: 14px;
+
+        font-size: 18px;
+        line-height: 1.25;
+    }
+
+    /* CONVERSOR */
+
+    .conversor-monedas {
+        gap: 10px;
+        margin-bottom: 0;
+    }
+
+    .modulo-moneda {
+        padding: 10px 12px;
+
+        border-radius: 13px;
+    }
+
+    .encabezado-moneda {
+        gap: 2px;
+        margin-bottom: 7px;
+    }
+
+    .encabezado-moneda span {
+        font-size: 14px;
+    }
+
+    .encabezado-moneda small {
+        font-size: 11px;
+        line-height: 1.3;
+    }
+
+    .campo-moneda {
+        height: 48px;
+        border-radius: 10px;
+    }
+
+    #montoCop,
+    #montoVes,
+    #montoBcv {
+        font-size: 19px;
+        padding: 0 8px;
+    }
+
+    .simbolo-moneda {
+        padding-left: 11px;
+        font-size: 16px;
+    }
+
+    .codigo-moneda {
+        padding-right: 11px;
+        font-size: 12px;
+    }
+
+    /* ZONA DE ACCIONES */
+
+    section {
+        margin-top: 12px;
+        padding: 11px;
+
+        border-radius: 13px;
+    }
+
+    .vigencia-cotizacion {
+        padding: 9px 10px;
+        gap: 7px;
+    }
+
+    .vigencia-cotizacion small {
+        font-size: 11px;
+    }
+
+    .vigencia-cotizacion strong {
+        font-size: 12px;
+    }
+
+    #btnWhatsApp {
+        min-height: 48px;
+
+        margin-top: 10px;
+        padding: 12px;
+
+        border-radius: 11px;
+        font-size: 13px;
+    }
+}
+
+
+/* ==========================================
+   TELÉFONOS CON PANTALLA BAJA
+   ========================================== */
+
+@media (max-width: 520px) and (max-height: 740px) {
+
+    body {
+        align-items: flex-start;
+        padding: 8px;
+    }
+
+    main {
+        padding: 12px 14px;
+    }
+
+    .marca-tigre {
+        margin-bottom: 5px;
+    }
+
+    .logo-tigre {
+        max-width: 175px;
+    }
+
+    main>h2 {
+        margin-bottom: 10px;
+        font-size: 17px;
+    }
+
+    .conversor-monedas {
+        gap: 8px;
+    }
+
+    .modulo-moneda {
+        padding: 8px 10px;
+    }
+
+    .encabezado-moneda {
+        margin-bottom: 5px;
+    }
+
+    .campo-moneda {
+        height: 44px;
+    }
+
+    section {
+        margin-top: 9px;
+        padding: 9px;
+    }
+
+    .vigencia-cotizacion {
+        padding: 7px 9px;
+    }
+
+    #btnWhatsApp {
+        min-height: 46px;
+        margin-top: 8px;
+    }
 }

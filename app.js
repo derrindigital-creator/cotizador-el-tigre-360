@@ -27,6 +27,34 @@ function redondearA500(valor) {
     return Math.ceil(valor / 500) * 500;
 }
 
+// Formato de Bolívares mientras se escribe.
+// Punto para miles y coma para decimales.
+
+function formatearBolivares(valor) {
+
+    const limpio = valor
+        .replace(/\./g, '')
+        .replace(/[^\d,]/g, '');
+
+    const partes = limpio.split(',');
+
+    const enteros = partes[0];
+
+    const decimales = partes
+        .slice(1)
+        .join('')
+        .slice(0, 2);
+
+    const enterosFormateados = enteros
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    if (limpio.includes(',')) {
+        return enterosFormateados + ',' + decimales;
+    }
+
+    return enterosFormateados;
+}
+
 // ==========================================
 // VIGENCIA DE LA COTIZACIÓN
 // ==========================================
@@ -221,6 +249,36 @@ montoCop.addEventListener('input', () => {
 montoVes.addEventListener('input', () => {
 
     origenCotizacion = 'VES';
+
+    // Aplicar separador de miles automáticamente
+    const posicionAnterior = montoVes.selectionStart;
+
+    const textoAnterior = montoVes.value;
+
+    const caracteresAntes = textoAnterior
+        .slice(0, posicionAnterior)
+        .replace(/[^\d,]/g, '').length;
+
+    montoVes.value = formatearBolivares(textoAnterior);
+
+    let posicionNueva = 0;
+    let caracteresContados = 0;
+
+    while (
+        posicionNueva < montoVes.value.length &&
+        caracteresContados < caracteresAntes
+    ) {
+        if (/[\d,]/.test(montoVes.value[posicionNueva])) {
+            caracteresContados++;
+        }
+
+        posicionNueva++;
+    }
+
+    montoVes.setSelectionRange(
+        posicionNueva,
+        posicionNueva
+    );
 
     // En este campo permitimos escribir
     // números y decimales con coma.
