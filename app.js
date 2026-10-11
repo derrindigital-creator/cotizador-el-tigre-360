@@ -71,18 +71,22 @@ async function cargarTasasSupabase() {
     bloquearCotizador();
 
     try {
-        const cliente = supabase.createClient(
-            window.SUPABASE_CONFIG.url,
-            window.SUPABASE_CONFIG.publishableKey
+        const respuesta = await fetch(
+            `${window.SUPABASE_CONFIG.url}/rest/v1/tasas_actuales?id=eq.1&select=tasa_venta,tasa_bcv`,
+            {
+                headers: {
+                    apikey: window.SUPABASE_CONFIG.publishableKey,
+                    Accept: 'application/vnd.pgrst.object+json'
+                },
+                cache: 'no-store'
+            }
         );
 
-        const { data, error } = await cliente
-            .from('tasas_actuales')
-            .select('tasa_venta, tasa_bcv')
-            .eq('id', 1)
-            .single();
+        if (!respuesta.ok) {
+            throw new Error(`Error HTTP ${respuesta.status}`);
+        }
 
-        if (error) throw error;
+        const data = await respuesta.json();
 
         const venta = Number(data.tasa_venta);
         const bcv = Number(data.tasa_bcv);
