@@ -15,13 +15,113 @@ const tiempoCotizacion = document.getElementById(
 
 
 // BCV oficial utilizado para las cotizaciones
-const tasaBCV = 873.867;
+let tasaBCV = 873.867;
 
 
 // Control de vigencia
 let intervaloCotizacion = null;
 let vencimientoCotizacion = null;
 let origenCotizacion = 'COP';
+
+// ==========================================
+// CONSULTAR TASAS DESDE SUPABASE
+// ==========================================
+
+// ==========================================
+// TASAS SEGURAS DESDE SUPABASE
+// ==========================================
+
+let tasasDisponibles = false;
+
+function bloquearCotizador() {
+    tasasDisponibles = false;
+
+    montoCop.disabled = true;
+    montoVes.disabled = true;
+    montoBcv.disabled = true;
+    btnWhatsApp.disabled = true;
+
+    // Eliminar cualquier cotización anterior
+    montoCop.value = '';
+    montoVes.value = '';
+    montoBcv.value = '';
+
+    resultado.textContent = '0,00 Bs';
+    resultadoBcv.textContent = 'US$ 0,00';
+
+    // Cancelar la vigencia anterior
+    if (intervaloCotizacion !== null) {
+        clearInterval(intervaloCotizacion);
+        intervaloCotizacion = null;
+    }
+
+    vencimientoCotizacion = null;
+    tiempoCotizacion.textContent = 'Sin cotización vigente';
+}
+
+function habilitarCotizador() {
+    tasasDisponibles = true;
+
+    montoCop.disabled = false;
+    montoVes.disabled = false;
+    montoBcv.disabled = false;
+}
+
+async function cargarTasasSupabase() {
+    bloquearCotizador();
+
+    try {
+        const cliente = supabase.createClient(
+            window.SUPABASE_CONFIG.url,
+            window.SUPABASE_CONFIG.publishableKey
+        );
+
+        const { data, error } = await cliente
+            .from('tasas_actuales')
+            .select('tasa_venta, tasa_bcv')
+            .eq('id', 1)
+            .single();
+
+        if (error) throw error;
+
+        const venta = Number(data.tasa_venta);
+        const bcv = Number(data.tasa_bcv);
+
+        if (
+            !Number.isFinite(venta) ||
+            !Number.isFinite(bcv) ||
+            venta <= 0 ||
+            bcv <= 0
+        ) {
+            throw new Error('Tasas inválidas');
+        }
+
+        tasaVenta.value = String(venta);
+        tasaBCV = bcv;
+
+        habilitarCotizador();
+
+        console.log(
+            'NIF 19.2.21: tasas cargadas y cotizador habilitado'
+        );
+
+    } catch (error) {
+        bloquearCotizador();
+
+        console.error('Error consultando tasas:', error);
+
+        alert(
+            'No fue posible actualizar las tasas. ' +
+            'Por seguridad, el cotizador permanecerá bloqueado. ' +
+            'Intenta actualizar la página.'
+        );
+    }
+}
+
+bloquearCotizador();
+cargarTasasSupabase();
+
+cargarTasasSupabase();
 
 function redondearA500(valor) {
     return Math.ceil(valor / 500) * 500;
