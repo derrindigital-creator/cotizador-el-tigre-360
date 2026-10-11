@@ -720,3 +720,82 @@ section {
         margin-top: 8px;
     }
 }
+
+/* NIF 19.2.29 - Menú superior El Tigre 360 */
+
+main {
+    position: relative;
+}
+
+.menu-tigre {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.menu-tigre summary {
+    list-style: none;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #234b83;
+    background: #f2f5fa;
+    border: 1px solid #dce3ee;
+}
+
+.menu-tigre summary::-webkit-details-marker {
+    display: none;
+}
+
+.menu-tigre-opciones {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    width: 245px;
+    max-width: calc(100vw - 32px);
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #dce3ee;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.14);
+}
+
+.menu-tigre-opciones a {
+    display: block;
+    padding: 11px;
+    color: #234b83;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.menu-tigre-opciones a:hover {
+    background: #f2f5fa;
+}
+
+.menu-tigre-creditos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px 10px;
+    margin: 5px 0;
+    border-top: 1px solid #e5e9f0;
+    border-bottom: 1px solid #e5e9f0;
+    color: #334155;
+    font-size: 12px;
+}
+
+.menu-tigre-creditos strong {
+    font-size: 13px;
+}
+
+.menu-tigre-creditos small {
+    color: #64748b;
+}
