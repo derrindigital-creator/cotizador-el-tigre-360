@@ -104,6 +104,10 @@
             <label for="nuevaTasaBCV">Dólar oficial BCV</label>
             <input id="nuevaTasaBCV" type="number" step="any" min="0.000001">
 
+            <!-- TASA USDT - VALOR INFORMATIVO -->
+            <label for="nuevaTasaUSDT">USDT (Bolívares por 1 USDT)</label>
+            <input id="nuevaTasaUSDT" type="number" step="any" min="0.000001" placeholder="Ejemplo: 950.00">
+
             <button id="guardarTasas" type="button" disabled>
                 Guardar nuevas tasas
             </button>
@@ -149,7 +153,7 @@
                 const { data: tasas, error: errorTasas } =
                     await clienteSupabase
                         .from("tasas_actuales")
-                        .select("id, tasa_venta, tasa_bcv")
+                        .select("id, tasa_venta, tasa_bcv, tasa_usdt")
                         .eq("id", 1)
                         .single();
 
@@ -164,6 +168,10 @@
 
                     document.getElementById("nuevaTasaBCV").value =
                         tasas.tasa_bcv;
+
+                    // Cargar USDT desde Supabase
+                    document.getElementById("nuevaTasaUSDT").value =
+                        tasas.tasa_usdt ?? "";
 
                     document.getElementById("panelTasas").hidden = false;
 
@@ -180,11 +188,17 @@
                             document.getElementById("nuevaTasaBCV").value
                         );
 
+                        const usdtTexto =
+                            document.getElementById("nuevaTasaUSDT").value.trim();
+
+                        const usdt = usdtTexto === "" ? null : Number(usdtTexto);
+
                         if (
                             !Number.isFinite(venta) ||
                             !Number.isFinite(bcv) ||
                             venta <= 0 ||
-                            bcv <= 0
+                            bcv <= 0 ||
+                            (usdt !== null && (!Number.isFinite(usdt) || usdt <= 0))
                         ) {
                             alert("Las tasas deben ser números mayores que cero.");
                             return;
@@ -193,7 +207,8 @@
                         if (!confirm(
                             "¿Confirmas guardar estas tasas?\n" +
                             "Tasa comercial: " + venta + "\n" +
-                            "Dólar BCV: " + bcv
+                            "Dólar BCV: " + bcv + "\n" +
+                            "USDT: " + (usdt === null ? "Sin configurar" : usdt)
                         )) {
                             return;
                         }
@@ -205,10 +220,11 @@
                                 .from("tasas_actuales")
                                 .update({
                                     tasa_venta: venta,
-                                    tasa_bcv: bcv
+                                    tasa_bcv: bcv,
+                                    tasa_usdt: usdt
                                 })
                                 .eq("id", 1)
-                                .select("id, tasa_venta, tasa_bcv")
+                                .select("id, tasa_venta, tasa_bcv, tasa_usdt")
                                 .single();
 
                             if (error) throw error;
