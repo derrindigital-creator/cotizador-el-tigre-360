@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap");
+
 /* ==========================================
    EL TIGRE 360
    COTIZADOR COP · VES · BCV
@@ -798,4 +800,361 @@ main {
 
 .menu-tigre-creditos small {
     color: #64748b;
+}
+
+
+/* NIF compacto + modo oscuro (solo presentación) */
+main {
+    position: relative;
+}
+
+#alternar-tema-tigre {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 3;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #d9e2ed;
+    border-radius: 10px;
+    background: #f1f5fb;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+#reloj-tigre.reloj-tigre-visible {
+    text-align: center;
+    color: #365477;
+    font: 600 14px/1.35 Arial, sans-serif;
+    margin: 3px 0 6px;
+    padding: 0 3px;
+}
+
+#indicadores-tasas {
+    margin: 6px auto 9px;
+    gap: 8px;
+}
+
+#indicadores-tasas .indicador-tasa:first-child {
+    background: #eaf4ff;
+    border-color: #b6d6f8;
+}
+
+#indicadores-tasas .indicador-tasa:last-child {
+    background: #fff5df;
+    border-color: #f0d49c;
+}
+
+.vigencia-cotizacion {
+    display: none !important;
+}
+
+#copiar-cotizacion-tigre button.copia-completa svg {
+    flex-shrink: 0;
+}
+
+@media(max-width:520px) {
+    body {
+        padding: 6px;
+    }
+
+    main {
+        padding: 12px 12px;
+    }
+
+    .marca-tigre {
+        margin-bottom: 2px;
+    }
+
+    .logo-tigre {
+        max-width: 175px;
+    }
+
+    main>h2 {
+        margin-bottom: 8px;
+        font-size: 17px;
+    }
+
+    .conversor-monedas {
+        gap: 7px;
+    }
+
+    .modulo-moneda {
+        padding: 8px 10px;
+    }
+
+    .encabezado-moneda {
+        margin-bottom: 4px;
+    }
+
+    .campo-moneda {
+        height: 43px;
+    }
+
+    section {
+        margin-top: 7px;
+        padding: 7px;
+    }
+
+    #btnWhatsApp {
+        margin-top: 7px;
+        min-height: 43px;
+        padding: 10px;
+    }
+
+    #copiar-cotizacion-tigre button.copia-completa {
+        padding: 9px 8px;
+    }
+
+    #alternar-tema-tigre {
+        top: 8px;
+        left: 8px;
+        width: 32px;
+        height: 32px;
+    }
+}
+
+body.tema-oscuro {
+    background: #071324;
+    color: #e7f1ff;
+}
+
+body.tema-oscuro main {
+    background: #0c1e37;
+    border-color: #294767;
+    box-shadow: 0 14px 42px #0006;
+}
+
+body.tema-oscuro main>h2,
+body.tema-oscuro .encabezado-moneda span {
+    color: #f2f7ff;
+}
+
+body.tema-oscuro .encabezado-moneda small,
+body.tema-oscuro #reloj-tigre {
+    color: #a9c7e8;
+}
+
+body.tema-oscuro .modulo-moneda {
+    background: #102945;
+    border-color: #35577b;
+}
+
+body.tema-oscuro .campo-moneda {
+    background: #1c3554;
+    border-color: #416185;
+}
+
+body.tema-oscuro .campo-moneda input {
+    background: transparent;
+    color: #f2f8ff;
+}
+
+body.tema-oscuro .simbolo-moneda,
+body.tema-oscuro .codigo-moneda {
+    color: #b6d4f2;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa:first-child {
+    background: #103d62;
+    border-color: #25b6e8;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa:last-child {
+    background: #42341d;
+    border-color: #d6a94d;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa span {
+    color: #c3d7ec;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa strong {
+    color: #fff;
+}
+
+body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+    background: #1468b0;
+    border-color: #4ab9ed;
+    color: #fff;
+}
+
+body.tema-oscuro #mensaje-copia-tigre {
+    color: #a5ebc2;
+}
+
+body.tema-oscuro section {
+    background: #102945;
+    border-color: #35577b;
+}
+
+body.tema-oscuro #alternar-tema-tigre {
+    background: #233e5f;
+    border-color: #50759c;
+}
+
+body.tema-oscuro .menu-tigre summary {
+    background: #1b3655;
+    color: #f1f7ff;
+}
+
+body.tema-oscuro .menu-tigre-opciones {
+    background: #152c49;
+    color: #f1f7ff;
+}
+
+body.tema-oscuro .menu-tigre-opciones a {
+    color: #e8f4ff;
+}
+
+/* NIF legibilidad: resultados y acciones en ambos temas */
+body.tema-oscuro .campo-moneda input,
+body.tema-oscuro .campo-moneda input:disabled,
+body.tema-oscuro .campo-moneda input:read-only {
+    color: #f5f9ff !important;
+    -webkit-text-fill-color: #f5f9ff;
+    opacity: 1;
+}
+
+body.tema-oscuro .campo-moneda input::placeholder {
+    color: #b7cce5;
+    -webkit-text-fill-color: #b7cce5;
+    opacity: 1;
+}
+
+body.tema-oscuro .modulo-moneda:focus-within .campo-moneda {
+    background: #203c5e;
+}
+
+body.tema-oscuro #btnWhatsApp:not(:disabled) {
+    color: #072c1a;
+}
+
+body.tema-oscuro #btnWhatsApp:disabled {
+    color: #072c1a;
+    opacity: .55;
+}
+
+#copiar-cotizacion-tigre button.copia-completa,
+body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .1px;
+}
+
+#btnWhatsApp {
+    font-size: 14px;
+    letter-spacing: .2px;
+}
+
+@media (max-width: 520px) {
+    .encabezado-moneda span {
+        font-size: 13px;
+    }
+
+    .encabezado-moneda small {
+        font-size: 10px;
+    }
+
+    #copiar-cotizacion-tigre button.copia-completa,
+    body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+        font-size: 12px;
+    }
+
+    #btnWhatsApp {
+        font-size: 13px;
+    }
+}
+
+/* ==========================================
+   NIF TIPOGRAFÍA — RAJDHANI
+   Solo importes monetarios y tasas; sin cambios funcionales.
+   ========================================== */
+#montoCop,
+#montoVes,
+#montoBcv {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.15px;
+    font-variant-numeric: tabular-nums;
+}
+
+.simbolo-moneda,
+.codigo-moneda {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 600;
+}
+
+#indicadores-tasas .indicador-tasa strong {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 520px) {
+
+    #montoCop,
+    #montoVes,
+    #montoBcv {
+        font-size: 21px;
+    }
+}
+
+/* NIF: lectura del botón Copiar y margen del código BCV */
+#copiar-cotizacion-tigre button.copia-completa,
+body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+}
+
+.codigo-moneda {
+    padding-right: 13px;
+    padding-left: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+
+    #copiar-cotizacion-tigre button.copia-completa,
+    body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+        font-size: 14px;
+    }
+
+    .codigo-moneda {
+        padding-right: 12px;
+        padding-left: 5px;
+        font-size: 12px;
+    }
+}
+
+
+/* NIF: título del Cotizador y alineación real de códigos */
+main>h2 {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.65px;
+    color: #173e75;
+    line-height: 1.2;
+}
+
+body.tema-oscuro main>h2 {
+    color: #f3cf77;
+}
+
+/* Los códigos quedan dentro del campo, separados del borde. */
+.campo-moneda>.codigo-moneda {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 0 15px 0 7px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
 }

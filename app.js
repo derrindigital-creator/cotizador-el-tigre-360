@@ -1197,7 +1197,7 @@ function crearRelojCotizador() {
     if (!marca || document.getElementById('reloj-tigre')) return;
     const reloj = document.createElement('div');
     reloj.id = 'reloj-tigre';
-    reloj.style.cssText = 'text-align:center;color:#65758b;font:500 11px/1.5 Arial,sans-serif;margin:8px 0 4px;padding:0 8px;';
+    reloj.className = 'reloj-tigre-visible';
     marca.insertAdjacentElement('afterend', reloj);
     const actualizar = () => {
         const fecha = new Intl.DateTimeFormat('es-CO', {
@@ -1225,24 +1225,23 @@ function crearBotonesCopia() {
     if (document.getElementById('copiar-cotizacion-tigre')) return;
     const estilos = document.createElement('style');
     estilos.textContent = `
-        #copiar-cotizacion-tigre { display:flex;flex-wrap:wrap;gap:8px;margin:14px 0; }
+        #copiar-cotizacion-tigre { display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 0; }
         #copiar-cotizacion-tigre button { cursor:pointer;border:1px solid #d9e2ed;
             background:#fff;color:#163b68;border-radius:10px;padding:10px 12px;
             font:600 12px/1.3 Arial,sans-serif;flex:1 1 28%; }
-        #copiar-cotizacion-tigre button.copia-completa { flex-basis:100%;
+        #copiar-cotizacion-tigre button.copia-completa { flex-basis:100%; display:flex;
+            align-items:center;justify-content:center;gap:9px;min-height:43px;
             background:#163b68;color:white;border-color:#163b68; }
         #copiar-cotizacion-tigre button:disabled { opacity:.5;cursor:not-allowed; }
         #copiar-cotizacion-tigre button:focus-visible { outline:2px solid #d8a84b;outline-offset:2px; }
-        #mensaje-copia-tigre { width:100%;color:#35634b;font:500 12px Arial,sans-serif;min-height:15px; }
+        #mensaje-copia-tigre { width:100%;color:#35634b;font:500 12px Arial,sans-serif; }
+        #mensaje-copia-tigre:empty { display:none; }
     `;
     document.head.appendChild(estilos);
     const grupo = document.createElement('div');
     grupo.id = 'copiar-cotizacion-tigre';
     grupo.innerHTML = `
-        <button type="button" data-copia="cop">Copiar COP</button>
-        <button type="button" data-copia="ves">Copiar Bs</button>
-        <button type="button" data-copia="usd">Copiar USD</button>
-        <button type="button" class="copia-completa" data-copia="todo">📋 Copiar cotización completa</button>
+        <button type="button" class="copia-completa" data-copia="todo"><svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="13" height="16" rx="3"/><path d="M5 7H4a2 2 0 0 0-2 2v10a3 3 0 0 0 3 3h10a2 2 0 0 0 2-2v-1"/></svg><span>Copiar cotización completa</span></button>
         <div id="mensaje-copia-tigre" role="status" aria-live="polite"></div>
     `;
     btnWhatsApp.insertAdjacentElement('beforebegin', grupo);
@@ -1276,8 +1275,29 @@ function actualizarBotonesCopia() {
     grupo.querySelectorAll('button').forEach(boton => boton.disabled = !disponible);
 }
 
+function configurarTemaCotizador() {
+    const boton = document.getElementById('alternar-tema-tigre');
+    if (!boton) return;
+    let tema = 'claro';
+    try { tema = localStorage.getItem('tigre360-tema') === 'oscuro' ? 'oscuro' : 'claro'; } catch (_) { }
+    const aplicar = () => {
+        document.body.classList.toggle('tema-oscuro', tema === 'oscuro');
+        boton.textContent = tema === 'oscuro' ? '☀️' : '🌙';
+        boton.setAttribute('aria-label', tema === 'oscuro' ? 'Activar modo claro' : 'Activar modo oscuro');
+        boton.title = tema === 'oscuro' ? 'Modo claro' : 'Modo oscuro';
+        boton.setAttribute('aria-pressed', String(tema === 'oscuro'));
+    };
+    boton.addEventListener('click', () => {
+        tema = tema === 'oscuro' ? 'claro' : 'oscuro';
+        try { localStorage.setItem('tigre360-tema', tema); } catch (_) { }
+        aplicar();
+    });
+    aplicar();
+}
+
 crearRelojCotizador();
 crearBotonesCopia();
+configurarTemaCotizador();
 [montoCop, montoVes, montoBcv].forEach(campo =>
     campo.addEventListener('input', () => setTimeout(actualizarBotonesCopia, 0))
 );
