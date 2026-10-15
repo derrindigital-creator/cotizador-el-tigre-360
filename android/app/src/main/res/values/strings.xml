@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cotizador El Tigre 360</string>
+    <string name="title_activity_main">Cotizador El Tigre 360</string>
+    <string name="package_name">com.eltigre360.cotizador</string>
+    <string name="custom_url_scheme">com.eltigre360.cotizador</string>
+</resources>

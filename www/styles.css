@@ -1,0 +1,1160 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap");
+
+/* ==========================================
+   EL TIGRE 360
+   COTIZADOR COP · VES · BCV
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(circle at top,
+            #ffffff 0%,
+            #f4f7fb 55%,
+            #e9eef5 100%);
+
+    color: #172033;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 24px;
+}
+
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ========================================== */
+
+main {
+    width: 100%;
+    max-width: 460px;
+
+    padding: 34px 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8edf4;
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 60px rgba(20, 39, 74, 0.12);
+
+    text-align: center;
+}
+
+
+/* ==========================================
+   MARCA
+   ========================================== */
+
+main>h1 {
+    margin-bottom: 4px;
+
+    color: #123f86;
+
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+main>p:first-of-type {
+    margin-bottom: 24px;
+
+    color: #65738a;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+main>h2 {
+    margin-bottom: 22px;
+
+    color: #1b2638;
+
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+/* ==========================================
+   CONVERSOR
+   ========================================== */
+
+.conversor-monedas {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+
+/* ==========================================
+   MÓDULO DE MONEDA
+   ========================================== */
+
+.modulo-moneda {
+    position: relative;
+
+    width: 100%;
+
+    padding: 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe6ef;
+    border-radius: 15px;
+
+    text-align: left;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* COP — AMARILLO */
+
+.modulo-cop {
+    border-left: 6px solid #f4c430;
+}
+
+
+/* VES — AZUL */
+
+.modulo-ves {
+    border-left: 6px solid #1d5cb8;
+}
+
+
+/* BCV — ROJO */
+
+.modulo-bcv {
+    border-left: 6px solid #c83b3b;
+}
+
+
+/* ==========================================
+   ENCABEZADO DE CADA MONEDA
+   ========================================== */
+
+.encabezado-moneda {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    margin-bottom: 9px;
+}
+
+.encabezado-moneda span {
+    color: #172033;
+
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.encabezado-moneda small {
+    color: #7a8798;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   CAMPO MONETARIO
+   ========================================== */
+
+.campo-moneda {
+    width: 100%;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+
+    background: #f1f5f9;
+
+    border: 1px solid #dce3ed;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* ==========================================
+   LOS TRES INPUTS
+   ========================================== */
+
+#montoCop,
+#montoVes,
+#montoBcv {
+    flex: 1;
+
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0 10px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #172033;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+#montoCop::placeholder,
+#montoVes::placeholder,
+#montoBcv::placeholder {
+    color: #a3adba;
+
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   SÍMBOLOS Y CÓDIGOS
+   ========================================== */
+
+.simbolo-moneda {
+    flex-shrink: 0;
+
+    padding-left: 14px;
+
+    color: #65738a;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.codigo-moneda {
+    flex-shrink: 0;
+
+    padding-right: 14px;
+
+    color: #65738a;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+/* ==========================================
+   MÓDULO ACTIVO
+   ========================================== */
+
+.modulo-moneda:focus-within {
+    transform: translateY(-1px);
+}
+
+.modulo-moneda:focus-within .campo-moneda {
+    background: #f8fafc;
+}
+
+
+/* COP activo */
+
+.modulo-cop:focus-within {
+    border-color: #f4c430;
+
+    box-shadow:
+        0 6px 18px rgba(244, 196, 48, 0.16);
+}
+
+.modulo-cop:focus-within .campo-moneda {
+    border-color: #f4c430;
+}
+
+
+/* VES activo */
+
+.modulo-ves:focus-within {
+    border-color: #1d5cb8;
+
+    box-shadow:
+        0 6px 18px rgba(29, 92, 184, 0.14);
+}
+
+.modulo-ves:focus-within .campo-moneda {
+    border-color: #1d5cb8;
+}
+
+
+/* BCV activo */
+
+.modulo-bcv:focus-within {
+    border-color: #c83b3b;
+
+    box-shadow:
+        0 6px 18px rgba(200, 59, 59, 0.14);
+}
+
+.modulo-bcv:focus-within .campo-moneda {
+    border-color: #c83b3b;
+}
+
+
+/* ==========================================
+   RESULTADOS INTERNOS ANTIGUOS
+   ========================================== */
+
+.resultados-ocultos {
+    display: none !important;
+}
+
+
+/* ==========================================
+   ZONA INFERIOR
+   ========================================== */
+
+section {
+    margin-top: 18px;
+
+    padding: 18px 14px;
+
+    background: #f5f8fc;
+
+    border: 1px solid #e1e7f0;
+    border-radius: 16px;
+}
+
+
+/* ==========================================
+   VIGENCIA
+   ========================================== */
+
+.vigencia-cotizacion {
+    padding: 11px 14px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe6ef;
+    border-radius: 11px;
+
+    color: #65738a;
+}
+
+.vigencia-cotizacion>span {
+    font-size: 18px;
+}
+
+.vigencia-cotizacion div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.vigencia-cotizacion small {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.vigencia-cotizacion strong {
+    color: #123f86;
+
+    font-size: 13px;
+    font-weight: 900;
+}
+
+
+/* ==========================================
+   WHATSAPP
+   ========================================== */
+
+#btnWhatsApp {
+    width: 100%;
+    min-height: 54px;
+
+    margin-top: 14px;
+    padding: 14px 18px;
+
+    border: none;
+    border-radius: 13px;
+
+    background: #25D366;
+
+    color: #102719;
+
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+#btnWhatsApp:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(23, 32, 51, 0.16);
+}
+
+#btnWhatsApp:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+#btnWhatsApp:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   CELULARES
+   ========================================== */
+
+@media (max-width: 520px) {
+
+    body {
+        align-items: flex-start;
+
+        padding: 14px;
+
+        background: #f4f7fb;
+    }
+
+    main {
+        margin-top: 10px;
+
+        padding: 26px 18px;
+
+        border-radius: 20px;
+    }
+
+    main>h1 {
+        font-size: 27px;
+    }
+
+    main>p:first-of-type {
+        margin-bottom: 20px;
+    }
+
+    main>h2 {
+        margin-bottom: 20px;
+
+        font-size: 18px;
+    }
+
+    .conversor-monedas {
+        gap: 12px;
+    }
+
+    .modulo-moneda {
+        padding: 12px;
+    }
+
+    .campo-moneda {
+        height: 56px;
+    }
+
+    #montoCop,
+    #montoVes,
+    #montoBcv {
+        font-size: 20px;
+    }
+
+    section {
+        margin-top: 16px;
+
+        padding: 14px;
+    }
+}
+
+/* ==========================================
+   LOGO EL TIGRE 360
+   ========================================== */
+
+.marca-tigre {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.logo-tigre {
+    display: block;
+
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+
+    object-fit: contain;
+}
+
+/* ==========================================
+   NIF 16.1 — OPTIMIZACIÓN MÓVIL
+   EL TIGRE 360
+   ========================================== */
+
+@media (max-width: 520px) {
+
+    body {
+        min-height: 100vh;
+        min-height: 100dvh;
+
+        padding: 10px;
+
+        align-items: center;
+    }
+
+    main {
+        width: 100%;
+        max-width: 420px;
+
+        margin: 0;
+        padding: 18px 16px;
+
+        border-radius: 18px;
+    }
+
+    /* IDENTIDAD CORPORATIVA */
+
+    .marca-tigre {
+        margin-bottom: 8px;
+    }
+
+    .logo-tigre {
+        width: 100%;
+        max-width: 210px;
+        height: auto;
+    }
+
+    main>h2 {
+        margin-bottom: 14px;
+
+        font-size: 18px;
+        line-height: 1.25;
+    }
+
+    /* CONVERSOR */
+
+    .conversor-monedas {
+        gap: 10px;
+        margin-bottom: 0;
+    }
+
+    .modulo-moneda {
+        padding: 10px 12px;
+
+        border-radius: 13px;
+    }
+
+    .encabezado-moneda {
+        gap: 2px;
+        margin-bottom: 7px;
+    }
+
+    .encabezado-moneda span {
+        font-size: 14px;
+    }
+
+    .encabezado-moneda small {
+        font-size: 11px;
+        line-height: 1.3;
+    }
+
+    .campo-moneda {
+        height: 48px;
+        border-radius: 10px;
+    }
+
+    #montoCop,
+    #montoVes,
+    #montoBcv {
+        font-size: 19px;
+        padding: 0 8px;
+    }
+
+    .simbolo-moneda {
+        padding-left: 11px;
+        font-size: 16px;
+    }
+
+    .codigo-moneda {
+        padding-right: 11px;
+        font-size: 12px;
+    }
+
+    /* ZONA DE ACCIONES */
+
+    section {
+        margin-top: 12px;
+        padding: 11px;
+
+        border-radius: 13px;
+    }
+
+    .vigencia-cotizacion {
+        padding: 9px 10px;
+        gap: 7px;
+    }
+
+    .vigencia-cotizacion small {
+        font-size: 11px;
+    }
+
+    .vigencia-cotizacion strong {
+        font-size: 12px;
+    }
+
+    #btnWhatsApp {
+        min-height: 48px;
+
+        margin-top: 10px;
+        padding: 12px;
+
+        border-radius: 11px;
+        font-size: 13px;
+    }
+}
+
+
+/* ==========================================
+   TELÉFONOS CON PANTALLA BAJA
+   ========================================== */
+
+@media (max-width: 520px) and (max-height: 740px) {
+
+    body {
+        align-items: flex-start;
+        padding: 8px;
+    }
+
+    main {
+        padding: 12px 14px;
+    }
+
+    .marca-tigre {
+        margin-bottom: 5px;
+    }
+
+    .logo-tigre {
+        max-width: 175px;
+    }
+
+    main>h2 {
+        margin-bottom: 10px;
+        font-size: 17px;
+    }
+
+    .conversor-monedas {
+        gap: 8px;
+    }
+
+    .modulo-moneda {
+        padding: 8px 10px;
+    }
+
+    .encabezado-moneda {
+        margin-bottom: 5px;
+    }
+
+    .campo-moneda {
+        height: 44px;
+    }
+
+    section {
+        margin-top: 9px;
+        padding: 9px;
+    }
+
+    .vigencia-cotizacion {
+        padding: 7px 9px;
+    }
+
+    #btnWhatsApp {
+        min-height: 46px;
+        margin-top: 8px;
+    }
+}
+
+/* NIF 19.2.29 - Menú superior El Tigre 360 */
+
+main {
+    position: relative;
+}
+
+.menu-tigre {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.menu-tigre summary {
+    list-style: none;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #234b83;
+    background: #f2f5fa;
+    border: 1px solid #dce3ee;
+}
+
+.menu-tigre summary::-webkit-details-marker {
+    display: none;
+}
+
+.menu-tigre-opciones {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    width: 245px;
+    max-width: calc(100vw - 32px);
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #dce3ee;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.14);
+}
+
+.menu-tigre-opciones a {
+    display: block;
+    padding: 11px;
+    color: #234b83;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.menu-tigre-opciones a:hover {
+    background: #f2f5fa;
+}
+
+.menu-tigre-creditos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px 10px;
+    margin: 5px 0;
+    border-top: 1px solid #e5e9f0;
+    border-bottom: 1px solid #e5e9f0;
+    color: #334155;
+    font-size: 12px;
+}
+
+.menu-tigre-creditos strong {
+    font-size: 13px;
+}
+
+.menu-tigre-creditos small {
+    color: #64748b;
+}
+
+
+/* NIF compacto + modo oscuro (solo presentación) */
+main {
+    position: relative;
+}
+
+#alternar-tema-tigre {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 3;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #d9e2ed;
+    border-radius: 10px;
+    background: #f1f5fb;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+#reloj-tigre.reloj-tigre-visible {
+    text-align: center;
+    color: #365477;
+    font: 600 14px/1.35 Arial, sans-serif;
+    margin: 3px 0 6px;
+    padding: 0 3px;
+}
+
+#indicadores-tasas {
+    margin: 6px auto 9px;
+    gap: 8px;
+}
+
+#indicadores-tasas .indicador-tasa:first-child {
+    background: #eaf4ff;
+    border-color: #b6d6f8;
+}
+
+#indicadores-tasas .indicador-tasa:last-child {
+    background: #fff5df;
+    border-color: #f0d49c;
+}
+
+.vigencia-cotizacion {
+    display: none !important;
+}
+
+#copiar-cotizacion-tigre button.copia-completa svg {
+    flex-shrink: 0;
+}
+
+@media(max-width:520px) {
+    body {
+        padding: 6px;
+    }
+
+    main {
+        padding: 12px 12px;
+    }
+
+    .marca-tigre {
+        margin-bottom: 2px;
+    }
+
+    .logo-tigre {
+        max-width: 175px;
+    }
+
+    main>h2 {
+        margin-bottom: 8px;
+        font-size: 17px;
+    }
+
+    .conversor-monedas {
+        gap: 7px;
+    }
+
+    .modulo-moneda {
+        padding: 8px 10px;
+    }
+
+    .encabezado-moneda {
+        margin-bottom: 4px;
+    }
+
+    .campo-moneda {
+        height: 43px;
+    }
+
+    section {
+        margin-top: 7px;
+        padding: 7px;
+    }
+
+    #btnWhatsApp {
+        margin-top: 7px;
+        min-height: 43px;
+        padding: 10px;
+    }
+
+    #copiar-cotizacion-tigre button.copia-completa {
+        padding: 9px 8px;
+    }
+
+    #alternar-tema-tigre {
+        top: 8px;
+        left: 8px;
+        width: 32px;
+        height: 32px;
+    }
+}
+
+body.tema-oscuro {
+    background: #071324;
+    color: #e7f1ff;
+}
+
+body.tema-oscuro main {
+    background: #0c1e37;
+    border-color: #294767;
+    box-shadow: 0 14px 42px #0006;
+}
+
+body.tema-oscuro main>h2,
+body.tema-oscuro .encabezado-moneda span {
+    color: #f2f7ff;
+}
+
+body.tema-oscuro .encabezado-moneda small,
+body.tema-oscuro #reloj-tigre {
+    color: #a9c7e8;
+}
+
+body.tema-oscuro .modulo-moneda {
+    background: #102945;
+    border-color: #35577b;
+}
+
+body.tema-oscuro .campo-moneda {
+    background: #1c3554;
+    border-color: #416185;
+}
+
+body.tema-oscuro .campo-moneda input {
+    background: transparent;
+    color: #f2f8ff;
+}
+
+body.tema-oscuro .simbolo-moneda,
+body.tema-oscuro .codigo-moneda {
+    color: #b6d4f2;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa:first-child {
+    background: #103d62;
+    border-color: #25b6e8;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa:last-child {
+    background: #42341d;
+    border-color: #d6a94d;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa span {
+    color: #c3d7ec;
+}
+
+body.tema-oscuro #indicadores-tasas .indicador-tasa strong {
+    color: #fff;
+}
+
+body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+    background: #1468b0;
+    border-color: #4ab9ed;
+    color: #fff;
+}
+
+body.tema-oscuro #mensaje-copia-tigre {
+    color: #a5ebc2;
+}
+
+body.tema-oscuro section {
+    background: #102945;
+    border-color: #35577b;
+}
+
+body.tema-oscuro #alternar-tema-tigre {
+    background: #233e5f;
+    border-color: #50759c;
+}
+
+body.tema-oscuro .menu-tigre summary {
+    background: #1b3655;
+    color: #f1f7ff;
+}
+
+body.tema-oscuro .menu-tigre-opciones {
+    background: #152c49;
+    color: #f1f7ff;
+}
+
+body.tema-oscuro .menu-tigre-opciones a {
+    color: #e8f4ff;
+}
+
+/* NIF legibilidad: resultados y acciones en ambos temas */
+body.tema-oscuro .campo-moneda input,
+body.tema-oscuro .campo-moneda input:disabled,
+body.tema-oscuro .campo-moneda input:read-only {
+    color: #f5f9ff !important;
+    -webkit-text-fill-color: #f5f9ff;
+    opacity: 1;
+}
+
+body.tema-oscuro .campo-moneda input::placeholder {
+    color: #b7cce5;
+    -webkit-text-fill-color: #b7cce5;
+    opacity: 1;
+}
+
+body.tema-oscuro .modulo-moneda:focus-within .campo-moneda {
+    background: #203c5e;
+}
+
+body.tema-oscuro #btnWhatsApp:not(:disabled) {
+    color: #072c1a;
+}
+
+body.tema-oscuro #btnWhatsApp:disabled {
+    color: #072c1a;
+    opacity: .55;
+}
+
+#copiar-cotizacion-tigre button.copia-completa,
+body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .1px;
+}
+
+#btnWhatsApp {
+    font-size: 14px;
+    letter-spacing: .2px;
+}
+
+@media (max-width: 520px) {
+    .encabezado-moneda span {
+        font-size: 13px;
+    }
+
+    .encabezado-moneda small {
+        font-size: 10px;
+    }
+
+    #copiar-cotizacion-tigre button.copia-completa,
+    body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+        font-size: 12px;
+    }
+
+    #btnWhatsApp {
+        font-size: 13px;
+    }
+}
+
+/* ==========================================
+   NIF TIPOGRAFÍA — RAJDHANI
+   Solo importes monetarios y tasas; sin cambios funcionales.
+   ========================================== */
+#montoCop,
+#montoVes,
+#montoBcv {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.15px;
+    font-variant-numeric: tabular-nums;
+}
+
+.simbolo-moneda,
+.codigo-moneda {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 600;
+}
+
+#indicadores-tasas .indicador-tasa strong {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 520px) {
+
+    #montoCop,
+    #montoVes,
+    #montoBcv {
+        font-size: 21px;
+    }
+}
+
+/* NIF: lectura del botón Copiar y margen del código BCV */
+#copiar-cotizacion-tigre button.copia-completa,
+body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+}
+
+.codigo-moneda {
+    padding-right: 13px;
+    padding-left: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+
+    #copiar-cotizacion-tigre button.copia-completa,
+    body.tema-oscuro #copiar-cotizacion-tigre button.copia-completa {
+        font-size: 14px;
+    }
+
+    .codigo-moneda {
+        padding-right: 12px;
+        padding-left: 5px;
+        font-size: 12px;
+    }
+}
+
+
+/* NIF: título del Cotizador y alineación real de códigos */
+main>h2 {
+    font-family: "Rajdhani", Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.65px;
+    color: #173e75;
+    line-height: 1.2;
+}
+
+body.tema-oscuro main>h2 {
+    color: #f3cf77;
+}
+
+/* Los códigos quedan dentro del campo, separados del borde. */
+.campo-moneda>.codigo-moneda {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 0 15px 0 7px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}

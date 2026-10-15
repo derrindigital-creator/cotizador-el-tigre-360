@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administración | El Tigre 360</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f3f6fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .panel {
+            width: 90%;
+            max-width: 380px;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            background: #163b68;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="panel">
+
+        <h1>🐯 El Tigre 360</h1>
+
+        <p>Acceso administrativo</p>
+
+        <form id="loginForm">
+
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" autocomplete="username" required>
+
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" autocomplete="current-password" required>
+
+            <button type="submit" disabled>
+                Iniciar sesión
+            </button>
+
+        </form>
+
+        <section id="panelTasas" hidden>
+            <h2>🐯 Administrar tasas</h2>
+
+            <label for="nuevaTasaVenta">Tasa comercial COP/VES</label>
+            <input id="nuevaTasaVenta" type="number" step="any" min="0.000001">
+
+            <label for="nuevaTasaBCV">Dólar oficial BCV</label>
+            <input id="nuevaTasaBCV" type="number" step="any" min="0.000001">
+
+            <!-- TASA USDT - VALOR INFORMATIVO -->
+            <label for="nuevaTasaUSDT">USDT (Bolívares por 1 USDT)</label>
+            <input id="nuevaTasaUSDT" type="number" step="any" min="0.000001" placeholder="Ejemplo: 950.00">
+
+            <button id="guardarTasas" type="button" disabled>
+                Guardar nuevas tasas
+            </button>
+        </section>
+
+    </main>
+
+    <script src="config.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <script>
+        const clienteSupabase = supabase.createClient(
+            window.SUPABASE_CONFIG.url,
+            window.SUPABASE_CONFIG.publishableKey
+        );
+
+        const formulario = document.getElementById("loginForm");
+        const boton = formulario.querySelector("button");
+
+        boton.disabled = false;
+
+        formulario.addEventListener("submit", async (evento) => {
+            evento.preventDefault();
+
+            boton.disabled = true;
+            boton.textContent = "Verificando...";
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            try {
+                const { data, error } =
+                    await clienteSupabase.auth.signInWithPassword({
+                        email,
+                        password
+                    });
+
+                if (error) throw error;
+
+                alert("Inicio de sesión correcto.");
+
+                const { data: tasas, error: errorTasas } =
+                    await clienteSupabase
+                        .from("tasas_actuales")
+                        .select("id, tasa_venta, tasa_bcv, tasa_usdt")
+                        .eq("id", 1)
+                        .single();
+
+                if (errorTasas) {
+                    console.error("Error consultando tasas:", errorTasas.message);
+                    alert("No se pudieron consultar las tasas.");
+                } else {
+                    console.log("Tasas consultadas:", tasas);
+
+                    document.getElementById("nuevaTasaVenta").value =
+                        tasas.tasa_venta;
+
+                    document.getElementById("nuevaTasaBCV").value =
+                        tasas.tasa_bcv;
+
+                    // Cargar USDT desde Supabase
+                    document.getElementById("nuevaTasaUSDT").value =
+                        tasas.tasa_usdt ?? "";
+
+                    document.getElementById("panelTasas").hidden = false;
+
+                    const botonGuardar = document.getElementById("guardarTasas");
+
+                    botonGuardar.disabled = false;
+
+                    botonGuardar.onclick = async () => {
+                        const venta = Number(
+                            document.getElementById("nuevaTasaVenta").value
+                        );
+
+                        const bcv = Number(
+                            document.getElementById("nuevaTasaBCV").value
+                        );
+
+                        const usdtTexto =
+                            document.getElementById("nuevaTasaUSDT").value.trim();
+
+                        const usdt = usdtTexto === "" ? null : Number(usdtTexto);
+
+                        if (
+                            !Number.isFinite(venta) ||
+                            !Number.isFinite(bcv) ||
+                            venta <= 0 ||
+                            bcv <= 0 ||
+                            (usdt !== null && (!Number.isFinite(usdt) || usdt <= 0))
+                        ) {
+                            alert("Las tasas deben ser números mayores que cero.");
+                            return;
+                        }
+
+                        if (!confirm(
+                            "¿Confirmas guardar estas tasas?\n" +
+                            "Tasa comercial: " + venta + "\n" +
+                            "Dólar BCV: " + bcv + "\n" +
+                            "USDT: " + (usdt === null ? "Sin configurar" : usdt)
+                        )) {
+                            return;
+                        }
+
+                        botonGuardar.disabled = true;
+
+                        try {
+                            const { data, error } = await clienteSupabase
+                                .from("tasas_actuales")
+                                .update({
+                                    tasa_venta: venta,
+                                    tasa_bcv: bcv,
+                                    tasa_usdt: usdt
+                                })
+                                .eq("id", 1)
+                                .select("id, tasa_venta, tasa_bcv, tasa_usdt")
+                                .single();
+
+                            if (error) throw error;
+
+                            alert(
+                                "¡Tasas guardadas correctamente!\n" +
+                                "Venta: " + data.tasa_venta + "\n" +
+                                "BCV: " + data.tasa_bcv
+                            );
+
+                        } catch (error) {
+                            console.error("Error al guardar tasas:", error);
+                            alert("No se pudieron guardar las tasas.");
+                        } finally {
+                            botonGuardar.disabled = false;
+                        }
+                    };
+
+
+                    alert(
+                        "Tasas consultadas correctamente.\n" +
+                        "Venta: " + tasas.tasa_venta + "\n" +
+                        "BCV: " + tasas.tasa_bcv
+                    );
+                }
+
+                console.log("Usuario autenticado:", data.user.id);
+
+                // En el siguiente NIF construiremos el panel de tasas.
+            } catch (error) {
+                alert("No se pudo iniciar sesión. Verifica tus credenciales.");
+                console.error("Error de autenticación:", error.message);
+            } finally {
+                boton.disabled = false;
+                boton.textContent = "Iniciar sesión";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+# Dependencias de Node.js
+node_modules/
+
+# Archivos temporales y registros
+*.log
+npm-debug.log*
+
+# Compilaciones de Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.cxx/
+android/captures/
+
+# Archivos locales de Android Studio
+android/.idea/
+android/*.iml
+*.hprof
+
+# Archivos de firma privados
+*.jks
+*.keystore
+*.p12
+
+# Variables y secretos locales
+.env
+.env.*
+!.env.example
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
