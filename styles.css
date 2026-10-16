@@ -1158,3 +1158,49 @@ body.tema-oscuro main>h2 {
     line-height: 1;
     white-space: nowrap;
 }
+
+/* BOTÓN INDIVIDUAL PARA COPIAR MONEDAS */
+
+.fila-titulo-moneda {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.fila-titulo-moneda > span {
+    min-width: 0;
+}
+
+.btn-copiar-moneda {
+    flex-shrink: 0;
+    padding: 5px 9px;
+    border: 1px solid #d9e2ed;
+    border-radius: 8px;
+    background: #f1f5f9;
+    color: #163b68;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-copiar-moneda:hover {
+    background: #e2eaf4;
+}
+
+.btn-copiar-moneda:focus-visible {
+    outline: 2px solid #d8a84b;
+    outline-offset: 2px;
+}
+
+/* COMPATIBILIDAD CON MODO OSCURO */
+
+body.tema-oscuro .btn-copiar-moneda {
+    background: #1c3554;
+    border-color: #416185;
+    color: #f2f8ff;
+}
+
+body.tema-oscuro .btn-copiar-moneda:hover {
+    background: #29496e;
+}

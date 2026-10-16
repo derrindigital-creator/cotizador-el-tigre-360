@@ -1245,6 +1245,75 @@ function crearBotonesCopia() {
         <div id="mensaje-copia-tigre" role="status" aria-live="polite"></div>
     `;
     btnWhatsApp.insertAdjacentElement('beforebegin', grupo);
+
+
+    // Copiar individualmente el monto COP
+    const botonCop = document.querySelector(
+        '[data-copia-moneda="cop"]'
+    );
+
+    if (botonCop) {
+        botonCop.addEventListener('click', async () => {
+            if (!cotizacionListaParaCopiar()) return;
+
+            const valorCop = montoCop.value.trim();
+            const aviso = document.getElementById('mensaje-copia-tigre');
+
+            try {
+                await navigator.clipboard.writeText(valorCop);
+                aviso.textContent = '✓ Pesos colombianos copiados.';
+            } catch (error) {
+                aviso.textContent = 'No se pudo copiar el monto.';
+            }
+        });
+    }
+
+
+    // Copiar individualmente el monto VES
+    const botonVes = document.querySelector(
+        '[data-copia-moneda="ves"]'
+    );
+
+    if (botonVes) {
+        botonVes.addEventListener('click', async () => {
+            if (!cotizacionListaParaCopiar()) return;
+
+            const valorVes = montoVes.value.trim();
+            const aviso = document.getElementById('mensaje-copia-tigre');
+
+            try {
+                await navigator.clipboard.writeText(valorVes);
+                aviso.textContent = '✓ Bolívares copiados.';
+            } catch (error) {
+                aviso.textContent = 'No se pudo copiar el monto en bolívares.';
+            }
+        });
+    }
+
+
+    // Copiar individualmente el monto USD BCV
+    const botonBcv = document.querySelector(
+        '[data-copia-moneda="bcv"]'
+    );
+
+    if (botonBcv) {
+        botonBcv.addEventListener('click', async () => {
+            if (!cotizacionListaParaCopiar()) return;
+
+            const valorBcv = montoBcv.value.trim();
+            const aviso = document.getElementById('mensaje-copia-tigre');
+
+            try {
+                await navigator.clipboard.writeText(valorBcv);
+                aviso.textContent = '✓ Dólares BCV copiados.';
+            } catch (error) {
+                aviso.textContent = 'No se pudo copiar el monto en dólares BCV.';
+            }
+        });
+    }
+
+
+
     grupo.addEventListener('click', async event => {
         const boton = event.target.closest('button[data-copia]');
         if (!boton || !cotizacionListaParaCopiar()) return;
@@ -1255,7 +1324,18 @@ function crearBotonesCopia() {
             cop: montoCop.value,
             ves: ves.replace(/\s*Bs\s*$/, ''),
             usd: usd.replace(/^US\$\s*/, ''),
-            todo: `🐯 EL TIGRE 360 | TE CONECTA\n\nSi envías ${cop}, llegan ${ves}, que son equivalentes a ${usd} Dolares al BCV en este momento.\n\n⏳ Cotización válida hasta finalizar la hora actual (hora de Colombia), sujeta a la confirmación del pago dentro de ese plazo.\n\nLa cotización no reserva ni garantiza la tasa hasta confirmar el pago.`
+
+
+            todo: [
+                '🐯 EL TIGRE 360 | TE CONECTA',
+                '',
+                `Envías: ${cop}`,
+                `Recibes: ${ves}`,
+                `Equivalente: ${usd} BCV`
+            ].join('\n')
+
+
+
         };
         const aviso = document.getElementById('mensaje-copia-tigre');
         try {
