@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Administración | El Tigre 360</title>
-
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             margin: 0;
             min-height: 100vh;
@@ -21,7 +15,6 @@
             background: #f3f6fa;
             font-family: Arial, sans-serif;
         }
-
         .panel {
             width: 90%;
             max-width: 380px;
@@ -30,95 +23,54 @@
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
         }
-
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        p {
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin: 15px 0 6px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
+        h1 { text-align: center; font-size: 24px; margin-bottom: 8px; }
+        p { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 25px; }
+        label { display: block; margin: 15px 0 6px; font-weight: bold; font-size: 14px; }
+        input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; }
         button {
-            width: 100%;
-            margin-top: 22px;
-            padding: 13px;
-            background: #163b68;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
+            width: 100%; margin-top: 22px; padding: 13px;
+            background: #163b68; color: white; border: none;
+            border-radius: 8px; font-size: 16px; font-weight: bold;
+            cursor: pointer;
         }
+        button:disabled { opacity: .6; cursor: not-allowed; }
     </style>
 </head>
-
 <body>
-
     <main class="panel">
-
         <h1>🐯 El Tigre 360</h1>
-
         <p>Acceso administrativo</p>
 
         <form id="loginForm">
-
             <label for="email">Correo electrónico</label>
             <input type="email" id="email" autocomplete="username" required>
-
             <label for="password">Contraseña</label>
             <input type="password" id="password" autocomplete="current-password" required>
-
-            <button type="submit" disabled>
-                Iniciar sesión
-            </button>
-
+            <button type="submit" disabled>Iniciar sesión</button>
         </form>
 
         <section id="panelTasas" hidden>
             <h2>🐯 Administrar tasas</h2>
 
-            <label for="nuevaTasaVenta">Tasa comercial COP/VES</label>
-            <input id="nuevaTasaVenta" type="number" step="any" min="0.000001">
+            <label for="nuevaTasaVenta">Tasa comercial de venta (COP → VES)</label>
+            <input id="nuevaTasaVenta" type="number" step="any" min="0.000001" required>
+
+            <label for="nuevaTasaCompra">Tasa comercial de compra (VES → COP)</label>
+            <input id="nuevaTasaCompra" type="number" step="0.0001" min="0.0001" required>
 
             <label for="nuevaTasaBCV">Dólar oficial BCV</label>
-            <input id="nuevaTasaBCV" type="number" step="any" min="0.000001">
+            <input id="nuevaTasaBCV" type="number" step="any" min="0.000001" required>
 
-            <!-- TASA USDT - VALOR INFORMATIVO -->
+            <!-- USDT: indicador informativo opcional -->
             <label for="nuevaTasaUSDT">USDT (Bolívares por 1 USDT)</label>
             <input id="nuevaTasaUSDT" type="number" step="any" min="0.000001" placeholder="Ejemplo: 950.00">
 
-            <button id="guardarTasas" type="button" disabled>
-                Guardar nuevas tasas
-            </button>
+            <button id="guardarTasas" type="button" disabled>Guardar nuevas tasas</button>
         </section>
-
     </main>
 
     <script src="config.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
     <script>
         const clienteSupabase = supabase.createClient(
             window.SUPABASE_CONFIG.url,
@@ -127,12 +79,16 @@
 
         const formulario = document.getElementById("loginForm");
         const boton = formulario.querySelector("button");
+        const botonGuardar = document.getElementById("guardarTasas");
+        const campoVenta = document.getElementById("nuevaTasaVenta");
+        const campoCompra = document.getElementById("nuevaTasaCompra");
+        const campoBCV = document.getElementById("nuevaTasaBCV");
+        const campoUSDT = document.getElementById("nuevaTasaUSDT");
 
         boton.disabled = false;
 
         formulario.addEventListener("submit", async (evento) => {
             evento.preventDefault();
-
             boton.disabled = true;
             boton.textContent = "Verificando...";
 
@@ -140,130 +96,112 @@
             const password = document.getElementById("password").value;
 
             try {
-                const { data, error } =
-                    await clienteSupabase.auth.signInWithPassword({
-                        email,
-                        password
-                    });
-
+                const { error } = await clienteSupabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
 
-                alert("Inicio de sesión correcto.");
-
-                const { data: tasas, error: errorTasas } =
-                    await clienteSupabase
-                        .from("tasas_actuales")
-                        .select("id, tasa_venta, tasa_bcv, tasa_usdt")
-                        .eq("id", 1)
-                        .single();
+                const { data: tasas, error: errorTasas } = await clienteSupabase
+                    .from("tasas_actuales")
+                    .select("id, tasa_venta, tasa_compra, tasa_bcv, tasa_usdt")
+                    .eq("id", 1)
+                    .single();
 
                 if (errorTasas) {
                     console.error("Error consultando tasas:", errorTasas.message);
-                    alert("No se pudieron consultar las tasas.");
-                } else {
-                    console.log("Tasas consultadas:", tasas);
-
-                    document.getElementById("nuevaTasaVenta").value =
-                        tasas.tasa_venta;
-
-                    document.getElementById("nuevaTasaBCV").value =
-                        tasas.tasa_bcv;
-
-                    // Cargar USDT desde Supabase
-                    document.getElementById("nuevaTasaUSDT").value =
-                        tasas.tasa_usdt ?? "";
-
-                    document.getElementById("panelTasas").hidden = false;
-
-                    const botonGuardar = document.getElementById("guardarTasas");
-
-                    botonGuardar.disabled = false;
-
-                    botonGuardar.onclick = async () => {
-                        const venta = Number(
-                            document.getElementById("nuevaTasaVenta").value
-                        );
-
-                        const bcv = Number(
-                            document.getElementById("nuevaTasaBCV").value
-                        );
-
-                        const usdtTexto =
-                            document.getElementById("nuevaTasaUSDT").value.trim();
-
-                        const usdt = usdtTexto === "" ? null : Number(usdtTexto);
-
-                        if (
-                            !Number.isFinite(venta) ||
-                            !Number.isFinite(bcv) ||
-                            venta <= 0 ||
-                            bcv <= 0 ||
-                            (usdt !== null && (!Number.isFinite(usdt) || usdt <= 0))
-                        ) {
-                            alert("Las tasas deben ser números mayores que cero.");
-                            return;
-                        }
-
-                        if (!confirm(
-                            "¿Confirmas guardar estas tasas?\n" +
-                            "Tasa comercial: " + venta + "\n" +
-                            "Dólar BCV: " + bcv + "\n" +
-                            "USDT: " + (usdt === null ? "Sin configurar" : usdt)
-                        )) {
-                            return;
-                        }
-
-                        botonGuardar.disabled = true;
-
-                        try {
-                            const { data, error } = await clienteSupabase
-                                .from("tasas_actuales")
-                                .update({
-                                    tasa_venta: venta,
-                                    tasa_bcv: bcv,
-                                    tasa_usdt: usdt
-                                })
-                                .eq("id", 1)
-                                .select("id, tasa_venta, tasa_bcv, tasa_usdt")
-                                .single();
-
-                            if (error) throw error;
-
-                            alert(
-                                "¡Tasas guardadas correctamente!\n" +
-                                "Venta: " + data.tasa_venta + "\n" +
-                                "BCV: " + data.tasa_bcv
-                            );
-
-                        } catch (error) {
-                            console.error("Error al guardar tasas:", error);
-                            alert("No se pudieron guardar las tasas.");
-                        } finally {
-                            botonGuardar.disabled = false;
-                        }
-                    };
-
-
-                    alert(
-                        "Tasas consultadas correctamente.\n" +
-                        "Venta: " + tasas.tasa_venta + "\n" +
-                        "BCV: " + tasas.tasa_bcv
-                    );
+                    alert("Inicio de sesión correcto, pero no se pudieron consultar las tasas.");
+                    return;
                 }
 
-                console.log("Usuario autenticado:", data.user.id);
+                campoVenta.value = tasas.tasa_venta;
+                campoCompra.value = tasas.tasa_compra;
+                campoBCV.value = tasas.tasa_bcv;
+                campoUSDT.value = tasas.tasa_usdt ?? "";
+                document.getElementById("panelTasas").hidden = false;
+                botonGuardar.disabled = false;
 
-                // En el siguiente NIF construiremos el panel de tasas.
+                alert(
+                    "Tasas consultadas correctamente.\n" +
+                    "Venta: " + tasas.tasa_venta + "\n" +
+                    "Compra: " + tasas.tasa_compra + "\n" +
+                    "BCV: " + tasas.tasa_bcv + "\n" +
+                    "USDT: " + (tasas.tasa_usdt ?? "Sin configurar")
+                );
             } catch (error) {
-                alert("No se pudo iniciar sesión. Verifica tus credenciales.");
                 console.error("Error de autenticación:", error.message);
+                alert("No se pudo iniciar sesión. Verifica tus credenciales.");
             } finally {
                 boton.disabled = false;
                 boton.textContent = "Iniciar sesión";
             }
         });
+
+        botonGuardar.addEventListener("click", async () => {
+            const ventaTexto = campoVenta.value.trim();
+            const compraTexto = campoCompra.value.trim();
+            const bcvTexto = campoBCV.value.trim();
+            const usdtTexto = campoUSDT.value.trim();
+
+            if (!ventaTexto || !compraTexto || !bcvTexto) {
+                alert("Completa las tasas de venta, compra y BCV.");
+                return;
+            }
+
+            const venta = Number(ventaTexto);
+            const compra = Number(compraTexto);
+            const bcv = Number(bcvTexto);
+            const usdt = usdtTexto === "" ? null : Number(usdtTexto);
+
+            if (
+                !Number.isFinite(venta) || !Number.isFinite(compra) ||
+                !Number.isFinite(bcv) || venta <= 0 || compra <= 0 || bcv <= 0 ||
+                (usdt !== null && (!Number.isFinite(usdt) || usdt <= 0))
+            ) {
+                alert("Las tasas deben ser números válidos mayores que cero.");
+                return;
+            }
+
+            if (!confirm(
+                "¿Confirmas guardar estas tasas?\n" +
+                "Venta: " + venta + "\n" +
+                "Compra: " + compra + "\n" +
+                "BCV: " + bcv + "\n" +
+                "USDT: " + (usdt === null ? "Sin configurar" : usdt)
+            )) return;
+
+            botonGuardar.disabled = true;
+            try {
+                const { data, error } = await clienteSupabase
+                    .from("tasas_actuales")
+                    .update({
+                        tasa_venta: venta,
+                        tasa_compra: compra,
+                        tasa_bcv: bcv,
+                        tasa_usdt: usdt
+                    })
+                    .eq("id", 1)
+                    .select("id, tasa_venta, tasa_compra, tasa_bcv, tasa_usdt")
+                    .single();
+
+                if (error) throw error;
+
+                campoVenta.value = data.tasa_venta;
+                campoCompra.value = data.tasa_compra;
+                campoBCV.value = data.tasa_bcv;
+                campoUSDT.value = data.tasa_usdt ?? "";
+
+                alert(
+                    "¡Tasas guardadas correctamente!\n" +
+                    "Venta: " + data.tasa_venta + "\n" +
+                    "Compra: " + data.tasa_compra + "\n" +
+                    "BCV: " + data.tasa_bcv + "\n" +
+                    "USDT: " + (data.tasa_usdt ?? "Sin configurar")
+                );
+            } catch (error) {
+                console.error("Error al guardar tasas:", error);
+                alert("No se pudieron guardar las tasas.");
+            } finally {
+                botonGuardar.disabled = false;
+            }
+        });
     </script>
-
 </body>
-
 </html>
