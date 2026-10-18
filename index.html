@@ -57,6 +57,16 @@
 
         <h2>Cotizador de Giros</h2>
 
+        <!-- Selector de calculadora multimoneda -->
+        <nav class="selector-calculadora" aria-label="Seleccionar calculadora">
+            <button type="button" class="selector-opcion activa" data-calculadora="cop" aria-pressed="true">🇨🇴 Pesos</button>
+            <button type="button" class="selector-opcion" data-calculadora="ves" aria-pressed="false">🇻🇪 Bolívares</button>
+            <button type="button" class="selector-opcion" data-calculadora="pen" aria-pressed="false">🇵🇪 Soles <small>Próximamente</small></button>
+        </nav>
+        <p id="descripcion-calculadora" class="descripcion-calculadora">Envía pesos colombianos y calcula los bolívares y su equivalente en USD BCV.</p>
+        <p id="aviso-calculadora" class="aviso-calculadora" role="status" hidden></p>
+
+
 
         <!-- =====================================
              CONVERSOR DE MONEDAS
@@ -263,6 +273,7 @@
     <script src="admin/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="app.js"></script>
+    <script src="multimoneda.js"></script>
 
 </body>
 

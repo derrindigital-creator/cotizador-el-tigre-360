@@ -1204,3 +1204,20 @@ body.tema-oscuro .btn-copiar-moneda {
 body.tema-oscuro .btn-copiar-moneda:hover {
     background: #29496e;
 }
+/* EL TIGRE 360 — selector multimoneda y fondo por país */
+.selector-calculadora { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:13px 0 8px; }
+.selector-opcion { border:1px solid #8294ac;background:#eaf0f8;color:#14345b;border-radius:11px;min-height:48px;padding:7px 3px;font-weight:800;font-size:12px;cursor:pointer;line-height:1.3; }
+.selector-opcion small { display:block;font-size:9px;font-weight:600; }
+.selector-opcion.activa { background:#184d88;color:white;border-color:#f1c64e;box-shadow:0 0 0 2px #e5b94255; }
+.selector-opcion:focus-visible {outline:3px solid #f2bc43;outline-offset:2px;}
+.descripcion-calculadora {text-align:center;font-size:12px;line-height:1.4;margin:5px 0 12px;color:#51657e;}
+.aviso-calculadora {font-size:13px;text-align:center;padding:12px;border-radius:12px;background:#fff0c4;color:#65430c;}
+body.modo-ves {background-image:linear-gradient(180deg,rgba(255,217,36,.13) 0%,rgba(255,217,36,.13) 32%,rgba(0,55,166,.12) 34%,rgba(0,55,166,.12) 66%,rgba(204,27,47,.12) 68%,rgba(204,27,47,.12) 100%);background-attachment:fixed;}
+body.modo-ves .conversor-monedas {background-image:linear-gradient(180deg,rgba(255,210,0,.09),rgba(0,51,170,.10) 52%,rgba(206,31,51,.09));border-radius:16px;}
+body.modo-ves .modulo-moneda {position:relative;}
+body.modo-ves .modulo-ves {box-shadow:inset 3px 0 #e5b830;}
+body.tema-oscuro .selector-opcion {background:#1a3557;color:#edf5ff;border-color:#54708c;}
+body.tema-oscuro .selector-opcion.activa {background:#1460a4;border-color:#f1c64e;}
+body.tema-oscuro .descripcion-calculadora {color:#d2dced;}
+body.tema-oscuro.modo-ves .conversor-monedas {background-image:linear-gradient(180deg,rgba(255,210,0,.06),rgba(0,51,170,.09),rgba(206,31,51,.07));}
+@media(max-width:390px){.selector-opcion{font-size:11px;padding:6px 2px;}}
