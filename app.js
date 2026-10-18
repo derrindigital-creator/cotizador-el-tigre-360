@@ -34,6 +34,8 @@ const tiempoCotizacion = document.getElementById(
 
 let tasaBCV = 873.867;
 
+// Tasa comercial de compra cargada desde Supabase
+let tasaCompra = null;
 
 
 
@@ -222,7 +224,9 @@ async function cargarTasasSupabase() {
 
         const respuesta = await fetch(
 
-            `${window.SUPABASE_CONFIG.url}/rest/v1/tasas_actuales?id=eq.1&select=tasa_venta,tasa_bcv,tasa_usdt`,
+
+            `${window.SUPABASE_CONFIG.url}/rest/v1/tasas_actuales?id=eq.1&select=tasa_venta,tasa_compra,tasa_bcv,tasa_usdt`,
+
 
             {
 
@@ -256,31 +260,33 @@ async function cargarTasasSupabase() {
 
         const venta = Number(data.tasa_venta);
 
+
+        const compra = data.tasa_compra == null
+            ? NaN
+            : Number(data.tasa_compra);
+
         const bcv = Number(data.tasa_bcv);
         const usdt = data.tasa_usdt == null ? NaN : Number(data.tasa_usdt);
 
 
 
         if (
-
             !Number.isFinite(venta) ||
-
+            !Number.isFinite(compra) ||
             !Number.isFinite(bcv) ||
-
             venta <= 0 ||
-
+            compra <= 0 ||
             bcv <= 0
-
         ) {
-
             throw new Error('Tasas inválidas');
-
         }
+
 
 
 
         tasaVenta.value = String(venta);
 
+        tasaCompra = compra;
         tasaBCV = bcv;
         mostrarIndicadoresTasas(bcv, usdt);
 
