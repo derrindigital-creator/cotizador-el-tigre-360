@@ -119,6 +119,11 @@ function crearIndicadoresTasas() {
         </div>
     `;
     marca.insertAdjacentElement('afterend', contenedor);
+    const comercial = document.createElement('div');
+    comercial.id = 'tasa-comercial-dia';
+    comercial.setAttribute('aria-label', 'Tasa comercial aplicada en la calculadora seleccionada');
+    comercial.innerHTML = '<span>TASA DEL DÍA</span><strong id="valor-tasa-comercial">—</strong><button type="button" id="reiniciar-cotizacion" aria-label="Reiniciar cotización" title="Limpiar importes y empezar una nueva cotización">↻ <small>Reset</small></button>';
+    contenedor.appendChild(comercial);
 }
 
 function mostrarIndicadoresTasas(bcv, usdt) {
@@ -138,6 +143,23 @@ function ocultarIndicadoresTasas() {
     if (usdt) usdt.textContent = 'No disponible';
 }
 
+// Indicador informativo: la tasa COP→VES es un divisor; VES→COP muestra
+// la tasa de compra efectiva (10 % de margen, redondeada a dos decimales).
+function actualizarTasaVisible() {
+    const etiqueta = document.getElementById('valor-tasa-comercial');
+    const contenedor = document.getElementById('tasa-comercial-dia');
+    if (!etiqueta || !contenedor) return;
+    const compra = document.body.classList.contains('modo-ves');
+    const base = compra ? tasaCompra : Number(tasaVenta.value);
+    const efectiva = compra ? Math.round((base * 0.9 + Number.EPSILON) * 100) / 100 : base;
+    const disponible = tasasDisponibles && Number.isFinite(efectiva) && efectiva > 0;
+    etiqueta.textContent = disponible ? efectiva.toLocaleString('es-CO', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+    }) : '—';
+    contenedor.title = compra ? 'Tasa efectiva de compra: COP por bolívar' : 'Tasa de venta: COP por bolívar';
+    contenedor.setAttribute('aria-label', compra ? 'Tasa del día VES a COP' : 'Tasa del día COP a VES');
+}
+
 crearIndicadoresTasas();
 
 let tasasDisponibles = false;
@@ -148,8 +170,7 @@ function bloquearCotizador() {
 
     tasasDisponibles = false;
     ocultarIndicadoresTasas();
-
-
+    actualizarTasaVisible();
 
     montoCop.disabled = true;
 
@@ -289,6 +310,7 @@ async function cargarTasasSupabase() {
         tasaCompra = compra;
         tasaBCV = bcv;
         mostrarIndicadoresTasas(bcv, usdt);
+        actualizarTasaVisible();
 
 
 

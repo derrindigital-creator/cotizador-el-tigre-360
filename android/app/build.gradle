@@ -17,6 +17,10 @@ android {
         }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".pruebas"
+            resValue "string", "app_name", "El Tigre 360 Pruebas"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

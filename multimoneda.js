@@ -90,6 +90,7 @@
         aviso.hidden = true;
         modo = nuevo;
         document.body.classList.toggle('modo-ves', modo === 'ves');
+        if (typeof actualizarTasaVisible === 'function') actualizarTasaVisible();
         selector.querySelectorAll('[data-calculadora]').forEach(b => {
             const activo = b.dataset.calculadora === modo;
             b.classList.toggle('activa', activo);
@@ -103,6 +104,25 @@
         etiquetas.bcv.textContent = modo === 'ves' ? 'Equivalente según dólar oficial BCV' : textosOriginales.bcv;
         limpiar();
     }
+    // Reiniciar tanto la calculadora original como la de compra, sin tocar tasas.
+    const botonReset = document.getElementById('reiniciar-cotizacion');
+    if (botonReset) botonReset.addEventListener('click', () => {
+        // Cancelar la vigencia y el temporizador anteriores.
+        if (intervaloCotizacion !== null) {
+            clearInterval(intervaloCotizacion);
+            intervaloCotizacion = null;
+        }
+        vencimientoCotizacion = null;
+        if (typeof tiempoCotizacion !== 'undefined' && tiempoCotizacion) {
+            tiempoCotizacion.textContent = 'Sin cotización vigente';
+        }
+        limpiar();
+        ultimoOrigen = 'ves';
+        // La calculadora seleccionada y las tasas del día se conservan.
+        if (typeof actualizarTasaVisible === 'function') actualizarTasaVisible();
+        const entrada = modo === 'ves' ? campos.ves : campos.cop;
+        if (entrada && !entrada.disabled) entrada.focus({preventScroll: true});
+    });
     selector.addEventListener('click', e => {
         const boton = e.target.closest('[data-calculadora]');
         if (boton) cambiar(boton.dataset.calculadora);

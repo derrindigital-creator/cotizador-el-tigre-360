@@ -34,6 +34,8 @@ const tiempoCotizacion = document.getElementById(
 
 let tasaBCV = 873.867;
 
+// Tasa comercial de compra cargada desde Supabase
+let tasaCompra = null;
 
 
 
@@ -117,6 +119,11 @@ function crearIndicadoresTasas() {
         </div>
     `;
     marca.insertAdjacentElement('afterend', contenedor);
+    const comercial = document.createElement('div');
+    comercial.id = 'tasa-comercial-dia';
+    comercial.setAttribute('aria-label', 'Tasa comercial aplicada en la calculadora seleccionada');
+    comercial.innerHTML = '<span>TASA DEL DÍA</span><strong id="valor-tasa-comercial">—</strong><button type="button" id="reiniciar-cotizacion" aria-label="Reiniciar cotización" title="Limpiar importes y empezar una nueva cotización">↻ <small>Reset</small></button>';
+    contenedor.appendChild(comercial);
 }
 
 function mostrarIndicadoresTasas(bcv, usdt) {
@@ -136,6 +143,23 @@ function ocultarIndicadoresTasas() {
     if (usdt) usdt.textContent = 'No disponible';
 }
 
+// Indicador informativo: la tasa COP→VES es un divisor; VES→COP muestra
+// la tasa de compra efectiva (10 % de margen, redondeada a dos decimales).
+function actualizarTasaVisible() {
+    const etiqueta = document.getElementById('valor-tasa-comercial');
+    const contenedor = document.getElementById('tasa-comercial-dia');
+    if (!etiqueta || !contenedor) return;
+    const compra = document.body.classList.contains('modo-ves');
+    const base = compra ? tasaCompra : Number(tasaVenta.value);
+    const efectiva = compra ? Math.round((base * 0.9 + Number.EPSILON) * 100) / 100 : base;
+    const disponible = tasasDisponibles && Number.isFinite(efectiva) && efectiva > 0;
+    etiqueta.textContent = disponible ? efectiva.toLocaleString('es-CO', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+    }) : '—';
+    contenedor.title = compra ? 'Tasa efectiva de compra: COP por bolívar' : 'Tasa de venta: COP por bolívar';
+    contenedor.setAttribute('aria-label', compra ? 'Tasa del día VES a COP' : 'Tasa del día COP a VES');
+}
+
 crearIndicadoresTasas();
 
 let tasasDisponibles = false;
@@ -146,8 +170,7 @@ function bloquearCotizador() {
 
     tasasDisponibles = false;
     ocultarIndicadoresTasas();
-
-
+    actualizarTasaVisible();
 
     montoCop.disabled = true;
 
@@ -222,7 +245,9 @@ async function cargarTasasSupabase() {
 
         const respuesta = await fetch(
 
-            `${window.SUPABASE_CONFIG.url}/rest/v1/tasas_actuales?id=eq.1&select=tasa_venta,tasa_bcv,tasa_usdt`,
+
+            `${window.SUPABASE_CONFIG.url}/rest/v1/tasas_actuales?id=eq.1&select=tasa_venta,tasa_compra,tasa_bcv,tasa_usdt`,
+
 
             {
 
@@ -256,33 +281,36 @@ async function cargarTasasSupabase() {
 
         const venta = Number(data.tasa_venta);
 
+
+        const compra = data.tasa_compra == null
+            ? NaN
+            : Number(data.tasa_compra);
+
         const bcv = Number(data.tasa_bcv);
         const usdt = data.tasa_usdt == null ? NaN : Number(data.tasa_usdt);
 
 
 
         if (
-
             !Number.isFinite(venta) ||
-
+            !Number.isFinite(compra) ||
             !Number.isFinite(bcv) ||
-
             venta <= 0 ||
-
+            compra <= 0 ||
             bcv <= 0
-
         ) {
-
             throw new Error('Tasas inválidas');
-
         }
+
 
 
 
         tasaVenta.value = String(venta);
 
+        tasaCompra = compra;
         tasaBCV = bcv;
         mostrarIndicadoresTasas(bcv, usdt);
+        actualizarTasaVisible();
 
 
 
@@ -1245,6 +1273,75 @@ function crearBotonesCopia() {
         <div id="mensaje-copia-tigre" role="status" aria-live="polite"></div>
     `;
     btnWhatsApp.insertAdjacentElement('beforebegin', grupo);
+
+
+    // Copiar individualmente el monto COP
+    const botonCop = document.querySelector(
+        '[data-copia-moneda="cop"]'
+    );
+
+    if (botonCop) {
+        botonCop.addEventListener('click', async () => {
+            if (!cotizacionListaParaCopiar()) return;
+
+            const valorCop = montoCop.value.trim();
+            const aviso = document.getElementById('mensaje-copia-tigre');
+
+            try {
+                await navigator.clipboard.writeText(valorCop);
+                aviso.textContent = '✓ Pesos colombianos copiados.';
+            } catch (error) {
+                aviso.textContent = 'No se pudo copiar el monto.';
+            }
+        });
+    }
+
+
+    // Copiar individualmente el monto VES
+    const botonVes = document.querySelector(
+        '[data-copia-moneda="ves"]'
+    );
+
+    if (botonVes) {
+        botonVes.addEventListener('click', async () => {
+            if (!cotizacionListaParaCopiar()) return;
+
+            const valorVes = montoVes.value.trim();
+            const aviso = document.getElementById('mensaje-copia-tigre');
+
+            try {
+                await navigator.clipboard.writeText(valorVes);
+                aviso.textContent = '✓ Bolívares copiados.';
+            } catch (error) {
+                aviso.textContent = 'No se pudo copiar el monto en bolívares.';
+            }
+        });
+    }
+
+
+    // Copiar individualmente el monto USD BCV
+    const botonBcv = document.querySelector(
+        '[data-copia-moneda="bcv"]'
+    );
+
+    if (botonBcv) {
+        botonBcv.addEventListener('click', async () => {
+            if (!cotizacionListaParaCopiar()) return;
+
+            const valorBcv = montoBcv.value.trim();
+            const aviso = document.getElementById('mensaje-copia-tigre');
+
+            try {
+                await navigator.clipboard.writeText(valorBcv);
+                aviso.textContent = '✓ Dólares BCV copiados.';
+            } catch (error) {
+                aviso.textContent = 'No se pudo copiar el monto en dólares BCV.';
+            }
+        });
+    }
+
+
+
     grupo.addEventListener('click', async event => {
         const boton = event.target.closest('button[data-copia]');
         if (!boton || !cotizacionListaParaCopiar()) return;
@@ -1255,7 +1352,18 @@ function crearBotonesCopia() {
             cop: montoCop.value,
             ves: ves.replace(/\s*Bs\s*$/, ''),
             usd: usd.replace(/^US\$\s*/, ''),
-            todo: `🐯 EL TIGRE 360 | TE CONECTA\n\nSi envías ${cop}, llegan ${ves}, que son equivalentes a ${usd} Dolares al BCV en este momento.\n\n⏳ Cotización válida hasta finalizar la hora actual (hora de Colombia), sujeta a la confirmación del pago dentro de ese plazo.\n\nLa cotización no reserva ni garantiza la tasa hasta confirmar el pago.`
+
+
+            todo: [
+                '🐯 EL TIGRE 360 | TE CONECTA',
+                '',
+                `Envías: ${cop}`,
+                `Recibes: ${ves}`,
+                `Equivalente: ${usd} BCV`
+            ].join('\n')
+
+
+
         };
         const aviso = document.getElementById('mensaje-copia-tigre');
         try {
